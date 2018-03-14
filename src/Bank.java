@@ -1,13 +1,19 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class Bank {
     /* Declarations */
     private ArrayList<BankAccount> bankAccounts = new ArrayList<>();
-    private ArrayList<ArrayList<String>> bankHistory = new ArrayList<>();
+    private ArrayList<String> bankHistory = new ArrayList<>();
 
+    /* Getters and setters */
     public ArrayList<BankAccount> getBankAccounts() {
         return bankAccounts;
+    }
+
+    public ArrayList<String> getBankHistory() {
+        return bankHistory;
     }
 
     public void createBankAccount() {
@@ -27,9 +33,28 @@ public class Bank {
         return null;
     }
 
-    public String getReport() {
-        String report = "Couldn't find information...";
+    public String createAccountHistoryReport(UUID id) {
+        String report = "Couldn't find account history information...";
+        ArrayList<String> accountHistory = findBankAccount(id).getAccountHistory();
+        report = buildHistoryReport(report, accountHistory);
+        return report;
+    }
 
+    public String createBankHistoryReport() {
+        String report = "Couldn't find bank history information...";
+        report = buildHistoryReport(report, bankHistory);
+        return report;
+    }
+
+    private String buildHistoryReport(String report, ArrayList<String> history) {
+        if (!history.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (String s : history) {
+                sb.append(s);
+                sb.append("\t");
+            }
+            report = sb.toString();
+        }
         return report;
     }
 }

@@ -7,11 +7,18 @@ public class BankAccount extends Product {
     final private UUID id;
     private double balance;
     private Bank bank;
+    private ArrayList<String> accountHistory = new ArrayList<>();
+    private boolean isDebet = false;
+    private double maxDebet = 0;
 
     /* Getters and setters */
     public UUID getId() { return id; }
-    public double getBalance() {return balance; }
-    private ArrayList<String> accountHistory = new ArrayList<>();
+    public double getBalance() { return balance; }
+    public ArrayList<String> getAccountHistory() { return accountHistory; }
+    public void setDebet(boolean isDebet, double maxDebet) {
+        this.isDebet = isDebet;
+        this.maxDebet = maxDebet;
+    }
 
     /* Constructor */
     public BankAccount(Bank bank) {
@@ -24,34 +31,49 @@ public class BankAccount extends Product {
 
     }
 
-    public void countPercentage() {
+    public void countInterest() {
 
     }
 
-    public void subtractMoney(Double amount) {
-        logOperation(this.id, -amount);
-        balance -= amount;
+    public void subtractMoney(double amount) {
+        if (hasEnoughMoney(amount)) {
+            balance -= amount;
+            logOperation(this.id, -amount);
+        }
+
     }
 
-    public void addMoney(Double amount) {
+    private boolean hasEnoughMoney(double amount) {
+        if(amount < balance)
+            return true;
+        if(amount > balance) {
+            if(isDebet && (balance + maxDebet) > amount)
+                return true;
+        }
+        return false;
+    }
+
+    public void addMoney(double amount) {
         logOperation(this.id, amount);
         balance += amount;
     }
 
-    public void transferMoney(Double amount, UUID receiverID) {
-        if ( bank.findBankAccount(receiverID) != null ) {
+    public void transferMoney(double amount, UUID receiverID) {
+        if (bank.findBankAccount(receiverID) != null && hasEnoughMoney(amount)) {
             balance -= amount;
             logOperation(this.id, -amount);
 
-            bank.findBankAccount(receiverID).addMoney(amount);
-            logOperation(this.id, amount);
+            BankAccount receiver = bank.findBankAccount(receiverID);
+            receiver.addMoney(amount);
+            logOperation(receiver.getId(), amount);
         } else {
             System.out.println("Could not find receiver account");
         }
     }
 
-    public void logOperation(UUID id, Double amount) {
+    public void logOperation(UUID id, double amount) {
         Date date = new Date();
-        accountHistory.add(date.getTime() + " - " + id + " - " + amount);
+        accountHistory.add(date.getTime() + " - " + amount);
+        bank.getBankHistory().add(date.getTime() + " - " + id + " - " + amount);
     }
 }

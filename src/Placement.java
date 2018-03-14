@@ -11,7 +11,7 @@ public class Placement extends Product{
     public void manageDebet(){
 
     }
-    public void countPercentage(){
+    public void countInterest(){
 
     }
 }
