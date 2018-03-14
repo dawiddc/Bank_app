@@ -1,3 +1,5 @@
+import com.example.java.Bank;
+
 class BankTest {
     Bank bank = new Bank();
 
