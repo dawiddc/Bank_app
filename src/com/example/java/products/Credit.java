@@ -1,4 +1,4 @@
-package com.example.java.product;
+package com.example.java.products;
 
 import com.example.java.Product;
 
@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-public class Deposit implements Product {
+public class Credit implements Product {
     /* Declarations */
     final private UUID id;
     final private UUID ownerAccountId;
@@ -23,7 +23,7 @@ public class Deposit implements Product {
 
     private double balance;
 
-    public Deposit(double startMoney, UUID ownerAccountId) {
+    public Credit(double startMoney, UUID ownerAccountId) {
         id = UUID.randomUUID();
         this.ownerAccountId = ownerAccountId;
         balance = startMoney;

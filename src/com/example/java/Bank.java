@@ -1,6 +1,6 @@
 package com.example.java;
 
-import com.example.java.product.BankAccount;
+import com.example.java.products.BankAccount;
 
 import java.util.ArrayList;
 import java.util.UUID;

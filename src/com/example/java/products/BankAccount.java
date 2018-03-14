@@ -1,4 +1,4 @@
-package com.example.java.product;
+package com.example.java.products;
 
 import com.example.java.Bank;
 import com.example.java.Product;
