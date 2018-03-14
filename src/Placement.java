@@ -1,17 +1,22 @@
 import java.text.DateFormat;
+import java.util.UUID;
 
-public class Placement extends Product{
-    private int id;
+public class Placement implements Product{
+    final private UUID id;
     private double balance;
     private DateFormat date;
-    private void BankAccount(){
-        id = ID;
-        ID++;
+    public Placement(){
+        id = UUID.randomUUID();
     }
-    public void manageDebet(){
+    public void manageOverdraft(){
 
     }
     public void countInterest(){
 
+    }
+
+    @Override
+    public UUID getId() {
+        return id;
     }
 }

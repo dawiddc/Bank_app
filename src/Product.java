@@ -1,5 +1,7 @@
-public abstract class Product {
-   public static int ID = 0;
-   public abstract void manageDebet();
-   public abstract void countInterest();
+import java.util.UUID;
+
+public interface Product {
+   void manageOverdraft();
+   void countInterest();
+   UUID getId();
 }

@@ -2,22 +2,22 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Date;
 
-public class BankAccount extends Product {
+public class BankAccount implements Product {
     /* Declarations */
     final private UUID id;
     private double balance;
     private Bank bank;
     private ArrayList<String> accountHistory = new ArrayList<>();
-    private boolean isDebet = false;
-    private double maxDebet = 0;
+    private boolean isOverdraft = false;
+    private double maxOverdraft = 0;
 
     /* Getters and setters */
     public UUID getId() { return id; }
     public double getBalance() { return balance; }
     public ArrayList<String> getAccountHistory() { return accountHistory; }
-    public void setDebet(boolean isDebet, double maxDebet) {
-        this.isDebet = isDebet;
-        this.maxDebet = maxDebet;
+    public void setOverdraft(boolean isOverdraft, double maxOverdraft) {
+        this.isOverdraft = isOverdraft;
+        this.maxOverdraft = maxOverdraft;
     }
 
     /* Constructor */
@@ -27,7 +27,7 @@ public class BankAccount extends Product {
     }
 
     /* methods */
-    public void manageDebet() {
+    public void manageOverdraft() {
 
     }
 
@@ -47,8 +47,7 @@ public class BankAccount extends Product {
         if(amount < balance)
             return true;
         if(amount > balance) {
-            if(isDebet && (balance + maxDebet) > amount)
-                return true;
+            return isOverdraft && (balance + maxOverdraft) > amount;
         }
         return false;
     }
