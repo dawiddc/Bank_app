@@ -13,7 +13,7 @@ public class BankAccount implements Product {
     final private UUID id;
     final private UUID ownerId;
     final private Date creationDate = Calendar.getInstance().getTime();
-    private double balance;
+    private double balance = 0;
     private final Bank bank;
     private final ArrayList<String> accountHistory = new ArrayList<>();
     private boolean isOverdraft = false;
