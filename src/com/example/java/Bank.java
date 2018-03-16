@@ -14,11 +14,11 @@ public class Bank {
     public ArrayList<BankAccount> getBankAccounts() {
         return bankAccounts;
     }
-
     public ArrayList<String> getBankHistory() {
         return bankHistory;
     }
 
+    /* Methods */
     public void createBankAccount() {
         UUID owner = UUID.randomUUID();
         bankAccounts.add(new BankAccount(this, owner));
