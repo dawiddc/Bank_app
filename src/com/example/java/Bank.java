@@ -1,6 +1,7 @@
 package com.example.java;
 
 import com.example.java.products.BankAccount;
+import com.example.java.products.Deposit;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -9,6 +10,7 @@ public class Bank {
     /* Declarations */
     private final ArrayList<BankAccount> bankAccounts = new ArrayList<>();
     private final ArrayList<String> bankHistory = new ArrayList<>();
+    private final ArrayList<Deposit> deposits = new ArrayList<>();
 
     /* Getters and setters */
     public ArrayList<BankAccount> getBankAccounts() {
@@ -16,6 +18,9 @@ public class Bank {
     }
     public ArrayList<String> getBankHistory() {
         return bankHistory;
+    }
+    public ArrayList<Deposit> getDeposits() {
+        return deposits;
     }
 
     /* Methods */
@@ -25,21 +30,27 @@ public class Bank {
     }
 
     public void removeBankAccount(UUID toBeRemovedId) {
-        BankAccount accountToBeRemoved = findBankAccount(toBeRemovedId);
+        BankAccount accountToBeRemoved = findBankAccountByID(toBeRemovedId);
         if (accountToBeRemoved != null)
             bankAccounts.remove(accountToBeRemoved);
     }
 
-    public BankAccount findBankAccount(UUID id) {
+    public BankAccount findBankAccountByID(UUID id) {
         for (BankAccount bankAccount : bankAccounts)
             if (bankAccount.getId().equals(id))
                 return bankAccount;
         return null;
     }
+    public Deposit findBanDepositByID(UUID id) {
+        for (Deposit deposit : deposits)
+            if (deposit.getId().equals(id))
+                return deposit;
+        return null;
+    }
 
     public String createAccountHistoryReport(UUID id) {
         String report = "Couldn't find account history information...";
-        ArrayList<String> accountHistory = findBankAccount(id).getAccountHistory();
+        ArrayList<String> accountHistory = findBankAccountByID(id).getAccountHistory();
         report = buildHistoryReport(report, accountHistory);
         return report;
     }
@@ -60,5 +71,10 @@ public class Bank {
             report = sb.toString();
         }
         return report;
+    }
+    public void createDeposit(UUID ownerAccountID, double startMoney, int months, double yearPercentage){
+        deposits.add(new Deposit(startMoney, ownerAccountID, months, yearPercentage));
+        BankAccount bankAccount = this.findBankAccountByID(ownerAccountID);
+        bankAccount.transferDeposit(startMoney, deposits.get(deposits.size() - 1).getId());
     }
 }

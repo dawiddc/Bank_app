@@ -110,17 +110,30 @@ public class BankAccount implements Product {
     }
 
     public void transferMoney(double amount, UUID receiverID) {
-        if (bank.findBankAccount(receiverID) != null && hasEnoughMoney(amount)) {
+        if (bank.findBankAccountByID(receiverID) != null && hasEnoughMoney(amount)) {
             balance -= amount;
             logOperation(this.id, -amount);
 
-            BankAccount receiver = bank.findBankAccount(receiverID);
+            BankAccount receiver = bank.findBankAccountByID(receiverID);
             receiver.addMoney(amount);
             logOperation(receiver.getId(), amount);
         } else {
             System.out.println("Could not find receiver account");
         }
     }
+    public void transferDeposit(double amount, UUID depositID) {
+        if (bank.findBanDepositByID(depositID) != null && hasEnoughMoney(amount)) {
+            balance -= amount;
+            logOperation(this.id, -amount);
+
+            Deposit deposit = bank.findBanDepositByID(depositID);
+            deposit.addMoney(amount);
+            logOperation(deposit.getId(), amount);
+        } else {
+            System.out.println("Could not find deposit");
+        }
+    }
+
 
     private void logOperation(UUID id, double amount) {
         Date date = new Date();

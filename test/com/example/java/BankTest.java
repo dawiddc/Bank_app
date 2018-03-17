@@ -28,14 +28,14 @@ class BankTest {
         bank.createBankAccount();
         UUID toBeRemoved = bank.getBankAccounts().get(0).getId();
         bank.removeBankAccount(toBeRemoved);
-        assertNull(bank.findBankAccount(toBeRemoved));
+        assertNull(bank.findBankAccountByID(toBeRemoved));
     }
 
     @Test
     void createBankAccount() {
         bank.createBankAccount();
         UUID bankAccountId = bank.getBankAccounts().get(0).getId();
-        assertNotNull(bank.findBankAccount(bankAccountId));
+        assertNotNull(bank.findBankAccountByID(bankAccountId));
     }
 
     @Test

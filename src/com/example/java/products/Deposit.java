@@ -10,6 +10,8 @@ public class Deposit implements Product {
     /* Declarations */
     final private UUID id;
     final private UUID ownerAccountId;
+    final private int months;
+    final private double yearPercentage;
     final private Date creationDate = Calendar.getInstance().getTime();
 
     /* Getters and setters */
@@ -21,12 +23,30 @@ public class Deposit implements Product {
         return balance;
     }
 
+    public double getYearPercentage() {
+        return yearPercentage;
+    }
+
+    public int getMonths() {
+        return months;
+    }
+
     private double balance;
 
-    public Deposit(double startMoney, UUID ownerAccountId) {
-        id = UUID.randomUUID();
+    public Deposit(double startMoney, UUID ownerAccountId, int months, double yearPercentage) {
+        this.id = UUID.randomUUID();
         this.ownerAccountId = ownerAccountId;
-        balance = startMoney;
+        this.balance = startMoney;
+        this.months = months;
+        this.yearPercentage = yearPercentage;
+    }
+
+    public void addMoney(double amount) {
+        balance += amount;
+    }
+
+    public void terminateDeposit(){
+
     }
     @Override
     public void manageInterest() {
