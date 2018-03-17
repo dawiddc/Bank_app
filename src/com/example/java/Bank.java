@@ -21,7 +21,7 @@ public class Bank {
     /* Methods */
     public void createBankAccount() {
         UUID owner = UUID.randomUUID();
-        bankAccounts.add(new BankAccount(this, owner));
+        bankAccounts.add(new BankAccount(this, owner, 0, BankAccount.percentageType.DAILY, 0.02));
     }
 
     public void removeBankAccount(UUID toBeRemovedId) {
