@@ -135,7 +135,7 @@ public class BankAccount implements Product {
     }
 
 
-    private void logOperation(UUID id, double amount) {
+    public void logOperation(UUID id, double amount) {
         Date date = new Date();
         accountHistory.add(Calendar.getInstance().getTime() + " - " + amount);
         bank.getBankHistory().add(Calendar.getInstance().getTime() + " - " + id + " - " + amount);

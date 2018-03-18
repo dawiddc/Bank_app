@@ -72,8 +72,8 @@ public class Bank {
         }
         return report;
     }
-    public void createDeposit(UUID ownerAccountID, double startMoney, int months, double yearPercentage){
-        deposits.add(new Deposit(startMoney, ownerAccountID, months, yearPercentage));
+    public void createDeposit(Bank bank, UUID ownerAccountID, double startMoney, int months, double yearPercentage){
+        deposits.add(new Deposit(bank, startMoney, ownerAccountID, months, yearPercentage));
         BankAccount bankAccount = this.findBankAccountByID(ownerAccountID);
         bankAccount.transferDeposit(startMoney, deposits.get(deposits.size() - 1).getId());
     }
