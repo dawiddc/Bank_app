@@ -1,8 +1,7 @@
 package com.example.java.products;
 
-import com.example.java.AccountInterestState;
 import com.example.java.Bank;
-import com.example.java.Product;
+import com.example.java.interests.AccountInterestState;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +52,11 @@ public class BankAccount implements Product {
 
     public double getBalance() {
         return balance;
+    }
+
+    @Override
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public Bank getBank() {

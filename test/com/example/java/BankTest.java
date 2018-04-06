@@ -1,6 +1,6 @@
 package com.example.java;
 
-import com.example.java.interests.B;
+import com.example.java.interests.ThreeRangeInterest;
 import com.example.java.products.BankAccount;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,7 +62,7 @@ class BankTest {
         bank.createBankAccount();
         BankAccount bankAccount = bank.getBankAccounts().get(0);
         bankAccount.addMoney(100);
-        bankAccount.setState(new B());
+        bankAccount.setState(new ThreeRangeInterest());
         bankAccount.manageInterest();
         assertEquals(105, bankAccount.getBalance());
         bankAccount.addMoney(20000);

@@ -1,12 +1,11 @@
 package com.example.java.products;
 
 import com.example.java.Bank;
-import com.example.java.Product;
+import com.example.java.interests.AccountInterestState;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class Deposit implements Product {
     /* Declarations */
@@ -14,53 +13,49 @@ public class Deposit implements Product {
     final private UUID ownerAccountId;
     final private Bank bank;
     final private int months;
-    final private double yearPercentage;
-    final private Date creationDate = Calendar.getInstance().getTime();
+    final private Date creationDate;
+    private double balance;
+    private AccountInterestState state = null;
+
+    public Deposit(Bank bank, double startMoney, UUID ownerAccountId, int months, AccountInterestState state) {
+        this.id = UUID.randomUUID();
+        this.ownerAccountId = ownerAccountId;
+        this.balance = startMoney;
+        this.months = months;
+        this.bank = bank;
+        this.state = state;
+        this.creationDate = Calendar.getInstance().getTime();
+    }
 
     /* Getters and setters */
     public UUID getOwnerAccountId() {
         return ownerAccountId;
     }
 
+    public AccountInterestState getState() {
+        return state;
+    }
+
+    public void setState(AccountInterestState state) {
+        this.state = state;
+    }
+
     public double getBalance() {
         return balance;
     }
 
-    public double getYearPercentage() {
-        return yearPercentage;
+    @Override
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
+
 
     public int getMonths() {
         return months;
     }
 
-    private double balance;
-
-    public Deposit(Bank bank, double startMoney, UUID ownerAccountId, int months, double yearPercentage) {
-        this.id = UUID.randomUUID();
-        this.ownerAccountId = ownerAccountId;
-        this.balance = startMoney;
-        this.months = months;
-        this.yearPercentage = yearPercentage;
-        this.bank = bank;
-    }
-
     public void addMoney(double amount) {
         balance += amount;
-    }
-
-    public void checkState(){
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(this.creationDate);
-        cal.add(Calendar.MONTH, this.months);
-        Date tempDate = cal.getTime();
-        if(TimeUnit.DAYS.convert(date.getTime(), TimeUnit.MILLISECONDS) > TimeUnit.DAYS.convert(tempDate.getTime(), TimeUnit.MILLISECONDS)) {
-            this.returnMoney(getBalance(), getOwnerAccountId());
-            double percentage = this.months/12 * this.yearPercentage;
-            this.returnMoney(getBalance()* percentage,getOwnerAccountId());
-        }
-
     }
 
     public void returnMoney(double amount, UUID receiverID) {
@@ -74,9 +69,10 @@ public class Deposit implements Product {
             System.out.println("Could not find account to return money");
         }
     }
+
     @Override
     public void manageInterest() {
-
+        state.countInterests(this);
     }
 
     @Override

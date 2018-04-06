@@ -1,6 +1,6 @@
 package com.example.java.products;
 
-import com.example.java.Product;
+import com.example.java.interests.AccountInterestState;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,6 +11,7 @@ public class Credit implements Product {
     final private UUID id;
     final private UUID ownerAccountId;
     final private Date creationDate = Calendar.getInstance().getTime();
+    private AccountInterestState state = null;
 
     /* Getters and setters */
     public UUID getOwnerAccountId() {
@@ -21,20 +22,32 @@ public class Credit implements Product {
         return balance;
     }
 
+    public Credit(double startMoney, UUID ownerAccountId, AccountInterestState state) {
+        this.id = UUID.randomUUID();
+        this.ownerAccountId = ownerAccountId;
+        this.balance = startMoney;
+        this.state = state;
+    }
+
     private double balance;
 
-    public Credit(double startMoney, UUID ownerAccountId) {
-        id = UUID.randomUUID();
-        this.ownerAccountId = ownerAccountId;
-        balance = startMoney;
+    @Override
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
+
     @Override
     public void manageInterest() {
-
+        state.countInterests(this);
     }
 
     @Override
     public UUID getId() {
         return id;
+    }
+
+    @Override
+    public void addMoney(double amount) {
+        balance += amount;
     }
 }
