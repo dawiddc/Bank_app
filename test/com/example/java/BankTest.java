@@ -1,5 +1,6 @@
 package com.example.java;
 
+import com.example.java.interests.B;
 import com.example.java.products.BankAccount;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,8 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BankTest {
     Bank bank = null;
@@ -46,5 +46,27 @@ class BankTest {
 
         String report = bank.createAccountHistoryReport(bankAccount.getId());
         assertNotNull(report);
+    }
+
+    @Test
+    void checkAInterestType() {
+        bank.createBankAccount();
+        BankAccount bankAccount = bank.getBankAccounts().get(0);
+        bankAccount.addMoney(100);
+        bankAccount.manageInterest();
+        assertEquals(104, bankAccount.getBalance());
+    }
+
+    @Test
+    void checkBInterestType() {
+        bank.createBankAccount();
+        BankAccount bankAccount = bank.getBankAccounts().get(0);
+        bankAccount.addMoney(100);
+        bankAccount.setState(new B());
+        bankAccount.manageInterest();
+        assertEquals(105, bankAccount.getBalance());
+        bankAccount.addMoney(20000);
+        bankAccount.manageInterest();
+        assertEquals(20507.1, bankAccount.getBalance());
     }
 }

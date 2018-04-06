@@ -1,5 +1,6 @@
 package com.example.java;
 
+import com.example.java.interests.A;
 import com.example.java.products.BankAccount;
 import com.example.java.products.Deposit;
 
@@ -26,7 +27,7 @@ public class Bank {
     /* Methods */
     public void createBankAccount() {
         UUID owner = UUID.randomUUID();
-        bankAccounts.add(new BankAccount(this, owner, 0, BankAccount.percentageType.DAILY, 0.02));
+        bankAccounts.add(new BankAccount(this, owner, 0, new A()));
     }
 
     public void removeBankAccount(UUID toBeRemovedId) {
