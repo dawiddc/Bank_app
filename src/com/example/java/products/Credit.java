@@ -1,7 +1,10 @@
 package com.example.java.products;
 
+import com.example.java.Bank;
 import com.example.java.interests.AccountInterestState;
+import com.example.java.operations.Operation;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -11,7 +14,18 @@ public class Credit implements Product {
     final private UUID id;
     final private UUID ownerAccountId;
     final private Date creationDate = Calendar.getInstance().getTime();
+    private final ArrayList<Operation> creditHistory = new ArrayList<>();
+    private final Bank bank;
     private AccountInterestState state = null;
+    private double balance;
+
+    public Credit(double startMoney, Bank bank, UUID ownerAccountId, AccountInterestState state) {
+        this.id = UUID.randomUUID();
+        this.ownerAccountId = ownerAccountId;
+        this.balance = startMoney;
+        this.state = state;
+        this.bank = bank;
+    }
 
     /* Getters and setters */
     public UUID getOwnerAccountId() {
@@ -22,18 +36,19 @@ public class Credit implements Product {
         return balance;
     }
 
-    public Credit(double startMoney, UUID ownerAccountId, AccountInterestState state) {
-        this.id = UUID.randomUUID();
-        this.ownerAccountId = ownerAccountId;
-        this.balance = startMoney;
-        this.state = state;
-    }
-
-    private double balance;
-
     @Override
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public boolean isOverdraft() {
+        return false;
+    }
+
+    @Override
+    public double getMaxOverdraft() {
+        return 0;
     }
 
     @Override
@@ -49,5 +64,27 @@ public class Credit implements Product {
     @Override
     public void addMoney(double amount) {
         balance += amount;
+    }
+
+    @Override
+    public void subtractMoney(double amount) {
+        balance -= amount;
+    }
+
+    // TODO: Implement credit methods
+    @Override
+    public boolean hasEnoughMoney(double amount) {
+        return false;
+    }
+
+    @Override
+    public void doOperation(Operation operation) {
+        operation.execute();
+        logOperation(operation);
+    }
+
+    public void logOperation(Operation operation) {
+        creditHistory.add(operation);
+        bank.getBankHistory().add(operation);
     }
 }

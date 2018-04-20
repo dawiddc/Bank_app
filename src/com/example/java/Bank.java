@@ -1,6 +1,8 @@
 package com.example.java;
 
-import com.example.java.interests.A;
+import com.example.java.interests.LinearInterest;
+import com.example.java.interests.TwoRangeInterest;
+import com.example.java.operations.Operation;
 import com.example.java.products.BankAccount;
 import com.example.java.products.Deposit;
 
@@ -10,14 +12,15 @@ import java.util.UUID;
 public class Bank {
     /* Declarations */
     private final ArrayList<BankAccount> bankAccounts = new ArrayList<>();
-    private final ArrayList<String> bankHistory = new ArrayList<>();
+    private final ArrayList<Operation> bankHistory = new ArrayList<>();
     private final ArrayList<Deposit> deposits = new ArrayList<>();
 
     /* Getters and setters */
     public ArrayList<BankAccount> getBankAccounts() {
         return bankAccounts;
     }
-    public ArrayList<String> getBankHistory() {
+
+    public ArrayList<Operation> getBankHistory() {
         return bankHistory;
     }
     public ArrayList<Deposit> getDeposits() {
@@ -27,7 +30,7 @@ public class Bank {
     /* Methods */
     public void createBankAccount() {
         UUID owner = UUID.randomUUID();
-        bankAccounts.add(new BankAccount(this, owner, 0, new A()));
+        bankAccounts.add(new BankAccount(this, owner, 0, new LinearInterest()));
     }
 
     public void removeBankAccount(UUID toBeRemovedId) {
@@ -51,7 +54,7 @@ public class Bank {
 
     public String createAccountHistoryReport(UUID id) {
         String report = "Couldn't find account history information...";
-        ArrayList<String> accountHistory = findBankAccountByID(id).getAccountHistory();
+        ArrayList<Operation> accountHistory = findBankAccountByID(id).getAccountHistory();
         report = buildHistoryReport(report, accountHistory);
         return report;
     }
@@ -62,20 +65,22 @@ public class Bank {
         return report;
     }
 
-    private String buildHistoryReport(String report, ArrayList<String> history) {
+    // TODO: build history report
+    private String buildHistoryReport(String report, ArrayList<Operation> history) {
         if (!history.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            for (String s : history) {
-                sb.append(s);
+            for (Operation operation : history) {
+                sb.append(operation);
                 sb.append("\t");
             }
             report = sb.toString();
         }
         return report;
     }
-    public void createDeposit(Bank bank, UUID ownerAccountID, double startMoney, int months, double yearPercentage){
-        deposits.add(new Deposit(bank, startMoney, ownerAccountID, months, yearPercentage));
+
+    public void createDeposit(Bank bank, UUID ownerAccountID, double startMoney, int months) {
+        deposits.add(new Deposit(bank, startMoney, ownerAccountID, months, new TwoRangeInterest()));
         BankAccount bankAccount = this.findBankAccountByID(ownerAccountID);
-        bankAccount.transferDeposit(startMoney, deposits.get(deposits.size() - 1).getId());
+        bankAccount.addMoney(startMoney);
     }
 }

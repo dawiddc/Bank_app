@@ -2,6 +2,8 @@ package com.example.java.products;
 
 import com.example.java.Bank;
 import com.example.java.interests.AccountInterestState;
+import com.example.java.operations.CountInterests;
+import com.example.java.operations.Operation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,9 +17,9 @@ public class BankAccount implements Product {
     final private UUID ownerId;
     final private Date creationDate = Calendar.getInstance().getTime();
     private final Bank bank;
-    private final ArrayList<String> accountHistory = new ArrayList<>();
+    private final ArrayList<Operation> accountHistory = new ArrayList<>();
     private double balance;
-    private boolean isOverdraft = false;
+    private boolean overdraft = false;
     private double maxOverdraft = 0;
     private AccountInterestState state = null;
 
@@ -30,104 +32,81 @@ public class BankAccount implements Product {
         this.state = state;
     }
 
+    /* Getters and setters */
+    public boolean isOverdraft() { return overdraft; }
+
+    public void setOverdraft(boolean overdraft) { this.overdraft = overdraft; }
+
+    public double getMaxOverdraft() { return maxOverdraft; }
+
+    public void setMaxOverdraft(double maxOverdraft) { this.maxOverdraft = maxOverdraft; }
     public AccountInterestState getState() {
         return state;
     }
-
     public void setState(AccountInterestState state) {
         this.state = state;
     }
-
     public UUID getId() {
         return id;
     }
-
     public UUID getOwnerId() {
         return ownerId;
     }
-
     public Date getCreationDate() {
         return creationDate;
     }
-
     public double getBalance() {
         return balance;
     }
-
-    @Override
     public void setBalance(double balance) {
         this.balance = balance;
     }
-
     public Bank getBank() {
         return bank;
     }
 
-    public ArrayList<String> getAccountHistory() {
+    public ArrayList<Operation> getAccountHistory() {
         return accountHistory;
     }
 
     public void setOverdraft(boolean isOverdraft, double maxOverdraft) {
-        this.isOverdraft = isOverdraft;
+        this.overdraft = isOverdraft;
         this.maxOverdraft = maxOverdraft;
     }
 
     /* Methods */
     public void manageInterest() {
-        state.countInterests(this);
+        CountInterests countInterests = new CountInterests(state, this);
+        logOperation(countInterests);
+    }
+
+    public void doOperation(Operation oper) {
+        oper.execute();
+        logOperation(oper);
     }
 
     public void subtractMoney(double amount) {
         if (hasEnoughMoney(amount)) {
             balance -= amount;
-            logOperation(this.id, -amount);
         }
-
     }
 
-    private boolean hasEnoughMoney(double amount) {
+    public boolean hasEnoughMoney(double amount) {
         if (amount < balance)
             return true;
         if (amount > balance) {
-            return isOverdraft && (balance + maxOverdraft) > amount;
+            return overdraft && (balance + maxOverdraft) > amount;
         }
         return false;
     }
 
     public void addMoney(double amount) {
-        logOperation(this.id, amount);
         balance += amount;
     }
 
-    public void transferMoney(double amount, UUID receiverID) {
-        if (bank.findBankAccountByID(receiverID) != null && hasEnoughMoney(amount)) {
-            balance -= amount;
-            logOperation(this.id, -amount);
-
-            BankAccount receiver = bank.findBankAccountByID(receiverID);
-            receiver.addMoney(amount);
-            logOperation(receiver.getId(), amount);
-        } else {
-            System.out.println("Could not find receiver account");
-        }
+    public void logOperation(Operation operation) {
+        accountHistory.add(operation);
+        bank.getBankHistory().add(operation);
     }
 
-    public void transferDeposit(double amount, UUID depositID) {
-        if (bank.findBanDepositByID(depositID) != null && hasEnoughMoney(amount)) {
-            balance -= amount;
-            logOperation(this.id, -amount);
-
-            Deposit deposit = bank.findBanDepositByID(depositID);
-            deposit.addMoney(amount);
-            logOperation(deposit.getId(), amount);
-        } else {
-            System.out.println("Could not find deposit");
-        }
-    }
-
-    public void logOperation(UUID id, double amount) {
-        Date date = new Date();
-        accountHistory.add(Calendar.getInstance().getTime() + " - " + amount);
-        bank.getBankHistory().add(Calendar.getInstance().getTime() + " - " + id + " - " + amount);
-    }
 }

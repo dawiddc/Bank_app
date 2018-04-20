@@ -2,7 +2,9 @@ package com.example.java.products;
 
 import com.example.java.Bank;
 import com.example.java.interests.AccountInterestState;
+import com.example.java.operations.Operation;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -14,6 +16,8 @@ public class Deposit implements Product {
     final private Bank bank;
     final private int months;
     final private Date creationDate;
+    private final ArrayList<Operation> depositHistory = new ArrayList<>();
+
     private double balance;
     private AccountInterestState state = null;
 
@@ -49,6 +53,16 @@ public class Deposit implements Product {
         this.balance = balance;
     }
 
+    @Override
+    public boolean isOverdraft() {
+        return false;
+    }
+
+    @Override
+    public double getMaxOverdraft() {
+        return 0;
+    }
+
 
     public int getMonths() {
         return months;
@@ -58,13 +72,22 @@ public class Deposit implements Product {
         balance += amount;
     }
 
+    @Override
+    public void subtractMoney(double amount) {
+        balance -= amount;
+    }
+
+    @Override
+    public boolean hasEnoughMoney(double amount) {
+        return amount < balance;
+    }
+
     public void returnMoney(double amount, UUID receiverID) {
         BankAccount receiverAccount = bank.findBankAccountByID(receiverID);
         if (receiverAccount != null) {
             balance -= amount;
 
             receiverAccount.addMoney(amount);
-            receiverAccount.logOperation(receiverAccount.getId(), amount);
         } else {
             System.out.println("Could not find account to return money");
         }
@@ -79,4 +102,16 @@ public class Deposit implements Product {
     public UUID getId() {
         return id;
     }
+
+    @Override
+    public void doOperation(Operation operation) {
+        operation.execute();
+        logOperation(operation);
+    }
+
+    public void logOperation(Operation operation) {
+        depositHistory.add(operation);
+        bank.getBankHistory().add(operation);
+    }
+
 }
