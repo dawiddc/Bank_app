@@ -54,11 +54,6 @@ public class Deposit implements Product {
     }
 
     @Override
-    public boolean isOverdraft() {
-        return false;
-    }
-
-    @Override
     public double getMaxOverdraft() {
         return 0;
     }

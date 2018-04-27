@@ -19,8 +19,6 @@ public interface Product {
 
     void setBalance(double amount);
 
-    boolean isOverdraft();
-
     double getMaxOverdraft();
 
     void doOperation(Operation operation);
