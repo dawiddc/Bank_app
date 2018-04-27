@@ -80,9 +80,9 @@ public class BankAccount implements Product {
         logOperation(countInterests);
     }
 
-    public void doOperation(Operation oper) {
-        oper.execute();
-        logOperation(oper);
+    public void doOperation(Operation operation) {
+        operation.execute();
+        logOperation(operation);
     }
 
     public void subtractMoney(double amount) {
