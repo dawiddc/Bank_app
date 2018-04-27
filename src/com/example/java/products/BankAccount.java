@@ -32,9 +32,6 @@ public class BankAccount implements Product {
         this.state = state;
     }
 
-    /* Getters and setters */
-    public boolean isOverdraft() { return overdraft; }
-
     public void setOverdraft(boolean overdraft) { this.overdraft = overdraft; }
 
     public double getMaxOverdraft() { return maxOverdraft; }
