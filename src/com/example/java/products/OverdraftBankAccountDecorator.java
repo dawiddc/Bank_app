@@ -31,7 +31,7 @@ public class OverdraftBankAccountDecorator implements Product{
 
     @Override
     public void subtractMoney(double amount) {
-        if(bankAccount.getBalance() + maxOverdraft > amount){
+        if(bankAccount.getBalance() + maxOverdraft >= amount){
             bankAccount.setBalance(bankAccount.getBalance() - amount);
         }
         else {
@@ -41,7 +41,7 @@ public class OverdraftBankAccountDecorator implements Product{
 
     @Override
     public boolean hasEnoughMoney(double amount) {
-        return bankAccount.getBalance() + maxOverdraft < amount;
+        return bankAccount.getBalance() + maxOverdraft >= amount;
     }
 
     @Override
