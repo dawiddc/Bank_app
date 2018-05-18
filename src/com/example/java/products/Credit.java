@@ -41,7 +41,7 @@ public class Credit implements Product {
         this.balance = balance;
     }
 
-    @Override
+
     public double getMaxOverdraft() {
         return 0;
     }

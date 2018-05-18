@@ -19,7 +19,5 @@ public interface Product {
 
     void setBalance(double amount);
 
-    double getMaxOverdraft();
-
     void doOperation(Operation operation);
 }

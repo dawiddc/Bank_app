@@ -26,7 +26,7 @@ public class OverdraftBankAccountDecorator implements Product{
 
     @Override
     public void addMoney(double amount) {
-        bankAccount.setBalance(bankAccount.getBalance() + amount);
+        bankAccount.addMoney(amount);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class OverdraftBankAccountDecorator implements Product{
         bankAccount.setBalance(amount);
     }
 
-    @Override
+
     public double getMaxOverdraft() {
         return this.maxOverdraft;
     }

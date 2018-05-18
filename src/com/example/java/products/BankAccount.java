@@ -19,8 +19,6 @@ public class BankAccount implements Product {
     private final Bank bank;
     private final ArrayList<Operation> accountHistory = new ArrayList<>();
     private double balance;
-    private boolean overdraft = false;
-    private double maxOverdraft = 0;
     private AccountInterestState state = null;
 
     /* Constructor */
@@ -32,11 +30,6 @@ public class BankAccount implements Product {
         this.state = state;
     }
 
-    public void setOverdraft(boolean overdraft) { this.overdraft = overdraft; }
-
-    public double getMaxOverdraft() { return maxOverdraft; }
-
-    public void setMaxOverdraft(double maxOverdraft) { this.maxOverdraft = maxOverdraft; }
     public AccountInterestState getState() {
         return state;
     }
@@ -66,10 +59,6 @@ public class BankAccount implements Product {
         return accountHistory;
     }
 
-    public void setOverdraft(boolean isOverdraft, double maxOverdraft) {
-        this.overdraft = isOverdraft;
-        this.maxOverdraft = maxOverdraft;
-    }
 
     /* Methods */
     public void manageInterest() {
@@ -89,11 +78,8 @@ public class BankAccount implements Product {
     }
 
     public boolean hasEnoughMoney(double amount) {
-        if (amount < balance)
+        if (amount <= balance)
             return true;
-        if (amount > balance) {
-            return overdraft && (balance + maxOverdraft) > amount;
-        }
         return false;
     }
 

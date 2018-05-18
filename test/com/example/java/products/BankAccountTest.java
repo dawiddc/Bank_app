@@ -1,6 +1,7 @@
 package com.example.java.products;
 
 import com.example.java.Bank;
+import com.example.java.operations.TransferMoney;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,9 +30,9 @@ class BankAccountTest {
 
     @Test
     void subtractMoney() {
-        bankAccount.setOverdraft(true, 1000);
+        bankAccount.setBalance(100);
         bankAccount.subtractMoney(100);
-        assertEquals(-100, bankAccount.getBalance());
+        assertEquals(0, bankAccount.getBalance());
     }
 
     @Test
@@ -42,16 +43,18 @@ class BankAccountTest {
 
     @Test
     void transferMoneyReceiver() {
-        bankAccount.setOverdraft(true, 1000);
-        bankAccount.transferMoney(100, bankAccountReceiver.getId() );
+        bankAccount.setBalance(100);
+        TransferMoney transferMoney = new TransferMoney(100, bankAccountReceiver.getId(), bankAccount, bank);
+        transferMoney.execute();
         assertEquals(100, bankAccountReceiver.getBalance());
     }
 
     @Test
     void transferMoneySender() {
-        bankAccount.setOverdraft(true, 1000);
-        bankAccount.transferMoney(100, bankAccountReceiver.getId() );
-        assertEquals(-100, bankAccount.getBalance());
+        bankAccount.setBalance(100);
+        TransferMoney transferMoney = new TransferMoney(100, bankAccountReceiver.getId(), bankAccount, bank);
+        transferMoney.execute();
+        assertEquals(0, bankAccount.getBalance());
     }
 
 }
