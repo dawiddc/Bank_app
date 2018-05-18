@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BankAccountTest {
 
@@ -18,8 +18,8 @@ class BankAccountTest {
         bank = new Bank();
         bank.createBankAccount();
         bank.createBankAccount();
-        bankAccount = bank.getBankAccounts().get(0);
-        bankAccountReceiver = bank.getBankAccounts().get(1);
+        bankAccount = (BankAccount) bank.getBankProducts().get(0);
+        bankAccountReceiver = (BankAccount) bank.getBankProducts().get(1);
     }
 
     @AfterEach

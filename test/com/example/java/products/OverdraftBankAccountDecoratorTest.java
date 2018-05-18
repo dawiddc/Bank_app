@@ -5,8 +5,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class OverdraftBankAccountDecoratorTest {
     Bank bank = null;
@@ -17,7 +17,7 @@ class OverdraftBankAccountDecoratorTest {
     void setUp() {
         bank = new Bank();
         bank.createBankAccount();
-        bankAccount = bank.getBankAccounts().get(0);
+        bankAccount = (BankAccount) bank.getBankProducts().get(0);
         obad = new OverdraftBankAccountDecorator(bankAccount, 100);
     }
 
