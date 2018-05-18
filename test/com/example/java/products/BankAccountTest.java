@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BankAccountTest {
 
@@ -30,9 +30,9 @@ class BankAccountTest {
 
     @Test
     void subtractMoney() {
-        bankAccount.setOverdraft(true, 1000);
+        bankAccount.setBalance(100);
         bankAccount.subtractMoney(100);
-        assertEquals(-100, bankAccount.getBalance());
+        assertEquals(0, bankAccount.getBalance());
     }
 
     @Test
@@ -43,18 +43,18 @@ class BankAccountTest {
 
     @Test
     void transferMoneyReceiver() {
-        bankAccount.setOverdraft(true, 1000);
-        TransferMoney moneyTransfer = new TransferMoney(100, bankAccountReceiver.getId(), bankAccount, bank);
-        moneyTransfer.execute();
+        bankAccount.setBalance(100);
+        TransferMoney transferMoney = new TransferMoney(100, bankAccountReceiver.getId(), bankAccount, bank);
+        transferMoney.execute();
         assertEquals(100, bankAccountReceiver.getBalance());
     }
 
     @Test
     void transferMoneySender() {
-        bankAccount.setOverdraft(true, 1000);
-        TransferMoney moneyTransfer = new TransferMoney(100, bankAccountReceiver.getId(), bankAccount, bank);
-        moneyTransfer.execute();
-        assertEquals(-100, bankAccount.getBalance());
+        bankAccount.setBalance(100);
+        TransferMoney transferMoney = new TransferMoney(100, bankAccountReceiver.getId(), bankAccount, bank);
+        transferMoney.execute();
+        assertEquals(0, bankAccount.getBalance());
     }
 
 }
