@@ -9,8 +9,8 @@ import java.util.UUID;
 public class MoneyTransferMediator {
 
     public void externalTransfer(double amount, Bank receiverBank, UUID receiverID) {
-        if (receiverBank.findBankAccountByID(receiverID) != null) {
-            Product receiver = receiverBank.findBankAccountByID(receiverID);
+        if (receiverBank.findBankProductByID(receiverID) != null) {
+            Product receiver = receiverBank.findBankProductByID(receiverID);
             receiver.addMoney(amount);
         }
     }

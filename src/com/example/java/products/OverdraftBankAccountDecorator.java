@@ -55,11 +55,6 @@ public class OverdraftBankAccountDecorator implements Product{
     }
 
     @Override
-    public double getMaxOverdraft() {
-        return this.maxOverdraft;
-    }
-
-    @Override
     public void doOperation(Operation operation) {
 
     }

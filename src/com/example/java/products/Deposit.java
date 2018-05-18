@@ -53,12 +53,6 @@ public class Deposit implements Product {
         this.balance = balance;
     }
 
-    @Override
-    public double getMaxOverdraft() {
-        return 0;
-    }
-
-
     public int getMonths() {
         return months;
     }
@@ -78,7 +72,7 @@ public class Deposit implements Product {
     }
 
     public void returnMoney(double amount, UUID receiverID) {
-        BankAccount receiverAccount = bank.findBankAccountByID(receiverID);
+        Product receiverAccount = bank.findBankProductByID(receiverID);
         if (receiverAccount != null) {
             balance -= amount;
 

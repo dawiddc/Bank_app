@@ -1,11 +1,12 @@
 package com.example.java.products;
 
 import com.example.java.Bank;
+import com.example.java.operations.TransferMoney;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BankAccountTest {
 
@@ -43,14 +44,16 @@ class BankAccountTest {
     @Test
     void transferMoneyReceiver() {
         bankAccount.setOverdraft(true, 1000);
-        bankAccount.transferMoney(100, bankAccountReceiver.getId() );
+        TransferMoney moneyTransfer = new TransferMoney(100, bankAccountReceiver.getId(), bankAccount, bank);
+        moneyTransfer.execute();
         assertEquals(100, bankAccountReceiver.getBalance());
     }
 
     @Test
     void transferMoneySender() {
         bankAccount.setOverdraft(true, 1000);
-        bankAccount.transferMoney(100, bankAccountReceiver.getId() );
+        TransferMoney moneyTransfer = new TransferMoney(100, bankAccountReceiver.getId(), bankAccount, bank);
+        moneyTransfer.execute();
         assertEquals(-100, bankAccount.getBalance());
     }
 
