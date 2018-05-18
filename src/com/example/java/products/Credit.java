@@ -2,6 +2,7 @@ package com.example.java.products;
 
 import com.example.java.Bank;
 import com.example.java.interests.AccountInterestState;
+import com.example.java.operations.CountInterests;
 import com.example.java.operations.Operation;
 
 import java.util.ArrayList;
@@ -43,7 +44,9 @@ public class Credit implements Product {
 
     @Override
     public void manageInterest() {
-        state.countInterests(this);
+        CountInterests countInterests = new CountInterests(state, this);
+        countInterests.execute();
+        logOperation(countInterests);
     }
 
     @Override
