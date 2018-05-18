@@ -5,27 +5,38 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class OverdraftBankAccountDecoratorTest {
+    Bank bank = null;
+    BankAccount bankAccount = null;
+    OverdraftBankAccountDecorator obad = null;
+
     @BeforeEach
     void setUp() {
-        Bank bank = new Bank();
-
+        bank = new Bank();
+        bank.createBankAccount();
+        bankAccount = bank.getBankAccounts().get(0);
+        obad = new OverdraftBankAccountDecorator(bankAccount, 100);
     }
 
     @AfterEach
     void tearDown() {
+        bank = null;
+        bankAccount = null;
+        obad = null;
     }
 
     @Test
     void subtractMoney() {
+        obad.subtractMoney(100);
+        assertEquals(-100, obad.getBalance());
     }
 
     @Test
     void hasEnoughMoney() {
+        assertFalse(obad.hasEnoughMoney(200));
     }
 
 }
