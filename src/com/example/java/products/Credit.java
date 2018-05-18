@@ -41,11 +41,6 @@ public class Credit implements Product {
         this.balance = balance;
     }
 
-
-    public double getMaxOverdraft() {
-        return 0;
-    }
-
     @Override
     public void manageInterest() {
         state.countInterests(this);

@@ -51,6 +51,7 @@ public class BankAccount implements Product {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
     public Bank getBank() {
         return bank;
     }
@@ -58,7 +59,6 @@ public class BankAccount implements Product {
     public ArrayList<Operation> getAccountHistory() {
         return accountHistory;
     }
-
 
     /* Methods */
     public void manageInterest() {
@@ -78,9 +78,7 @@ public class BankAccount implements Product {
     }
 
     public boolean hasEnoughMoney(double amount) {
-        if (amount <= balance)
-            return true;
-        return false;
+        return amount <= balance;
     }
 
     public void addMoney(double amount) {

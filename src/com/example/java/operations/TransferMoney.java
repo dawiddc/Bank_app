@@ -1,7 +1,6 @@
 package com.example.java.operations;
 
 import com.example.java.Bank;
-import com.example.java.products.BankAccount;
 import com.example.java.products.Product;
 
 import java.util.UUID;
@@ -23,9 +22,9 @@ public class TransferMoney implements Operation {
 
     @Override
     public void execute() {
-        if (bank.findBankAccountByID(receiverID) != null && product.hasEnoughMoney(amount)) {
+        if (bank.findBankProductByID(receiverID) != null && product.hasEnoughMoney(amount)) {
             product.setBalance(product.getBalance() - amount);
-            BankAccount receiver = bank.findBankAccountByID(receiverID);
+            Product receiver = bank.findBankProductByID(receiverID);
             receiver.addMoney(amount);
         } else {
             System.out.println("Could not find receiver account");

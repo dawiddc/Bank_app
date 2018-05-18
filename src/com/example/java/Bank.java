@@ -1,62 +1,50 @@
 package com.example.java;
 
 import com.example.java.interests.LinearInterest;
-import com.example.java.interests.TwoRangeInterest;
 import com.example.java.operations.Operation;
 import com.example.java.products.BankAccount;
-import com.example.java.products.Deposit;
+import com.example.java.products.Product;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class Bank {
     /* Declarations */
-    private final ArrayList<BankAccount> bankAccounts = new ArrayList<>();
+    private final ArrayList<Product> bankProducts = new ArrayList<>();
     private final ArrayList<Operation> bankHistory = new ArrayList<>();
-    private final ArrayList<Deposit> deposits = new ArrayList<>();
 
     /* Getters and setters */
-    public ArrayList<BankAccount> getBankAccounts() {
-        return bankAccounts;
-    }
-
     public ArrayList<Operation> getBankHistory() {
         return bankHistory;
     }
-    public ArrayList<Deposit> getDeposits() {
-        return deposits;
-    }
+
+    public ArrayList<Product> getBankProducts() {return bankProducts; }
 
     /* Methods */
     public void createBankAccount() {
         UUID owner = UUID.randomUUID();
-        bankAccounts.add(new BankAccount(this, owner, 0, new LinearInterest()));
+        bankProducts.add(new BankAccount(this, owner, 0, new LinearInterest()));
     }
 
-    public void removeBankAccount(UUID toBeRemovedId) {
-        BankAccount accountToBeRemoved = findBankAccountByID(toBeRemovedId);
-        if (accountToBeRemoved != null)
-            bankAccounts.remove(accountToBeRemoved);
+    public void removeBankProduct(UUID toBeRemovedId) {
+        Product productToBeRemoved = findBankProductByID(toBeRemovedId);
+        if (productToBeRemoved != null)
+            bankProducts.remove(productToBeRemoved);
     }
 
-    public BankAccount findBankAccountByID(UUID id) {
-        for (BankAccount bankAccount : bankAccounts)
-            if (bankAccount.getId().equals(id))
-                return bankAccount;
-        return null;
-    }
-    public Deposit findBanDepositByID(UUID id) {
-        for (Deposit deposit : deposits)
-            if (deposit.getId().equals(id))
-                return deposit;
+    public Product findBankProductByID(UUID id) {
+        for (Product product : bankProducts)
+            if (product.getId().equals(id))
+                return product;
         return null;
     }
 
     public String createAccountHistoryReport(UUID id) {
-        String report = "Couldn't find account history information...";
-        ArrayList<Operation> accountHistory = findBankAccountByID(id).getAccountHistory();
-        report = buildHistoryReport(report, accountHistory);
-        return report;
+//        String report = "Couldn't find account history information...";
+//        ArrayList<Operation> accountHistory = findBankProductByID(id).getProductHistory();
+//        report = buildHistoryReport(report, accountHistory);
+//        return report;
+        return null;
     }
 
     public String createBankHistoryReport() {
@@ -76,11 +64,5 @@ public class Bank {
             report = sb.toString();
         }
         return report;
-    }
-
-    public void createDeposit(Bank bank, UUID ownerAccountID, double startMoney, int months) {
-        deposits.add(new Deposit(bank, startMoney, ownerAccountID, months, new TwoRangeInterest()));
-        BankAccount bankAccount = this.findBankAccountByID(ownerAccountID);
-        bankAccount.addMoney(startMoney);
     }
 }

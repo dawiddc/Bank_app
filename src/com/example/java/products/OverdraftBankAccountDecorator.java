@@ -54,11 +54,6 @@ public class OverdraftBankAccountDecorator implements Product{
         bankAccount.setBalance(amount);
     }
 
-
-    public double getMaxOverdraft() {
-        return this.maxOverdraft;
-    }
-
     @Override
     public void doOperation(Operation operation) {
 
