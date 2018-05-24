@@ -2,10 +2,13 @@ package com.example.java;
 
 import com.example.java.interests.ThreeRangeInterest;
 import com.example.java.products.BankAccount;
+import com.example.java.products.Product;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,16 +42,6 @@ class BankTest {
     }
 
     @Test
-    void createAccountHistoryReport() {
-        bank.createBankAccount();
-        BankAccount bankAccount = (BankAccount) bank.getBankProducts().get(0);
-        bankAccount.addMoney(100);
-
-        String report = bank.createAccountHistoryReport(bankAccount.getId());
-        assertNotNull(report);
-    }
-
-    @Test
     void checkAInterestType() {
         bank.createBankAccount();
         BankAccount bankAccount = (BankAccount) bank.getBankProducts().get(0);
@@ -68,5 +61,29 @@ class BankTest {
         bankAccount.addMoney(20000);
         bankAccount.manageInterest();
         assertEquals(20507.1, bankAccount.getBalance());
+    }
+
+    @Test
+    void createBankHistoryOver1000Report(){
+        for (int i = 0; i < 10; i++){
+            bank.createBankAccount();
+        }
+        for (int i = 0; i < 5; i++){
+            bank.getBankProducts().get(i).setBalance(1200);
+        }
+        ArrayList<Product> reportedProducts = bank.createBankHistoryOver1000Report();
+        assertEquals(5, reportedProducts.size());
+    }
+
+    @Test
+    void createBankHistoryAllReport(){
+        for (int i = 0; i < 10; i++){
+            bank.createBankAccount();
+        }
+        for (int i = 0; i < 5; i++){
+            bank.getBankProducts().get(i).setBalance(1200);
+        }
+        ArrayList<Product> reportedProducts = bank.createBankHistoryAllReport();
+        assertEquals(10, reportedProducts.size());
     }
 }

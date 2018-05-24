@@ -43,14 +43,6 @@ public class Bank {
         return null;
     }
 
-    public String createAccountHistoryReport(UUID id) {
-//        String report = "Couldn't find account history information...";
-//        ArrayList<Operation> accountHistory = findBankProductByID(id).getProductHistory();
-//        report = buildHistoryReport(report, accountHistory);
-//        return report;
-        return null;
-    }
-
     public ArrayList<Product> createBankHistoryOver1000Report() {
         ArrayList<Product> result;
         result = buildHistoryReport(new Over1000Report());
@@ -65,8 +57,10 @@ public class Bank {
 
     private ArrayList<Product> buildHistoryReport(Visitor visitor) {
         ArrayList<Product> report = new ArrayList<>();
+        Product thisProduct;
         for (Product product : bankProducts){
-            report.add(product.accept(visitor));
+            if ((thisProduct = product.accept(visitor)) != null)
+                report.add(thisProduct);
         }
         return report;
     }
