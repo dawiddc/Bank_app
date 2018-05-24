@@ -91,10 +91,10 @@ public class BankAccount implements Product {
     }
 
     public boolean hasEnoughMoney(double amount) {
-        if (amount < balance)
+        if (amount <= balance)
             return true;
         if (amount > balance) {
-            return overdraft && (balance + maxOverdraft) > amount;
+            return overdraft && (balance + maxOverdraft) >= amount;
         }
         return false;
     }
