@@ -1,6 +1,7 @@
 package com.example.java.products;
 
 import com.example.java.operations.Operation;
+import com.example.java.reporting.Visitor;
 
 import java.util.UUID;
 
@@ -57,5 +58,10 @@ public class OverdraftBankAccountDecorator implements Product{
     @Override
     public void doOperation(Operation operation) {
 
+    }
+
+    @Override
+    public Product accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 }

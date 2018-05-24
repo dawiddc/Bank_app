@@ -4,7 +4,11 @@ import com.example.java.interests.LinearInterest;
 import com.example.java.operations.Operation;
 import com.example.java.products.BankAccount;
 import com.example.java.products.Product;
+import com.example.java.reporting.Over1000Report;
+import com.example.java.reporting.PassAllReport;
+import com.example.java.reporting.Visitor;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -47,22 +51,25 @@ public class Bank {
         return null;
     }
 
-    public String createBankHistoryReport() {
-        String report = "Couldn't find bank history information...";
-        report = buildHistoryReport(report, bankHistory);
-        return report;
+    public ArrayList<Product> createBankHistoryOver1000Report() {
+        ArrayList<Product> result;
+        result = buildHistoryReport(new Over1000Report());
+        return result;
     }
 
-    // TODO: build history report
-    private String buildHistoryReport(String report, ArrayList<Operation> history) {
-        if (!history.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (Operation operation : history) {
-                sb.append(operation);
-                sb.append("\t");
-            }
-            report = sb.toString();
+    public ArrayList<Product> createBankHistoryAllReport() {
+        ArrayList<Product> result;
+        result = buildHistoryReport(new PassAllReport());
+        return result;
+    }
+
+    private ArrayList<Product> buildHistoryReport(Visitor visitor) {
+        ArrayList<Product> report = new ArrayList<>();
+        for (Product product : bankProducts){
+            report.add(product.accept(visitor));
         }
         return report;
     }
+
+
 }

@@ -4,6 +4,7 @@ import com.example.java.Bank;
 import com.example.java.interests.AccountInterestState;
 import com.example.java.operations.CountInterests;
 import com.example.java.operations.Operation;
+import com.example.java.reporting.Visitor;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,5 +80,10 @@ public class Credit implements Product {
     public void logOperation(Operation operation) {
         creditHistory.add(operation);
         bank.getBankHistory().add(operation);
+    }
+
+    @Override
+    public Product accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 }

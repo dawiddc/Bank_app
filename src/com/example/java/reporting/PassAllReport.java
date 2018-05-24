@@ -1,8 +1,6 @@
 package com.example.java.reporting;
 
-import com.example.java.products.BankAccount;
-import com.example.java.products.Credit;
-import com.example.java.products.Product;
+import com.example.java.products.*;
 
 public class PassAllReport implements Visitor {
 
@@ -14,5 +12,15 @@ public class PassAllReport implements Visitor {
     @Override
     public Product visit(Credit credit) {
         return credit;
+    }
+
+    @Override
+    public Product visit(Deposit deposit) {
+        return deposit;
+    }
+
+    @Override
+    public Product visit(OverdraftBankAccountDecorator overdraftBankAccountDecorator) {
+        return overdraftBankAccountDecorator;
     }
 }

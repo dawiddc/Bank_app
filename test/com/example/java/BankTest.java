@@ -26,22 +26,22 @@ class BankTest {
     @Test
     void removeBankAccount() {
         bank.createBankAccount();
-        UUID toBeRemoved = bank.getBankAccounts().get(0).getId();
-        bank.removeBankAccount(toBeRemoved);
-        assertNull(bank.findBankAccountByID(toBeRemoved));
+        UUID toBeRemoved = bank.getBankProducts().get(0).getId();
+        bank.removeBankProduct(toBeRemoved);
+        assertNull(bank.findBankProductByID(toBeRemoved));
     }
 
     @Test
     void createBankAccount() {
         bank.createBankAccount();
-        UUID bankAccountId = bank.getBankAccounts().get(0).getId();
-        assertNotNull(bank.findBankAccountByID(bankAccountId));
+        UUID bankAccountId = bank.getBankProducts().get(0).getId();
+        assertNotNull(bank.findBankProductByID(bankAccountId));
     }
 
     @Test
     void createAccountHistoryReport() {
         bank.createBankAccount();
-        BankAccount bankAccount = bank.getBankAccounts().get(0);
+        BankAccount bankAccount = (BankAccount) bank.getBankProducts().get(0);
         bankAccount.addMoney(100);
 
         String report = bank.createAccountHistoryReport(bankAccount.getId());
@@ -51,7 +51,7 @@ class BankTest {
     @Test
     void checkAInterestType() {
         bank.createBankAccount();
-        BankAccount bankAccount = bank.getBankAccounts().get(0);
+        BankAccount bankAccount = (BankAccount) bank.getBankProducts().get(0);
         bankAccount.addMoney(100);
         bankAccount.manageInterest();
         assertEquals(104, bankAccount.getBalance());
@@ -60,7 +60,7 @@ class BankTest {
     @Test
     void checkBInterestType() {
         bank.createBankAccount();
-        BankAccount bankAccount = bank.getBankAccounts().get(0);
+        BankAccount bankAccount = (BankAccount) bank.getBankProducts().get(0);
         bankAccount.addMoney(100);
         bankAccount.setState(new ThreeRangeInterest());
         bankAccount.manageInterest();

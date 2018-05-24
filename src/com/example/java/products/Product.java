@@ -1,10 +1,12 @@
 package com.example.java.products;
 
 import com.example.java.operations.Operation;
+import com.example.java.reporting.Visitor;
 
 import java.util.UUID;
 
 public interface Product {
+
     void manageInterest();
 
     UUID getId();
@@ -20,4 +22,6 @@ public interface Product {
     void setBalance(double amount);
 
     void doOperation(Operation operation);
+
+    Product accept(Visitor visitor);
 }
