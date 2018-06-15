@@ -13,7 +13,7 @@ import java.util.UUID;
 
 
 public class BankAccount implements Product {
-    /* Declarations */
+
     final private UUID id;
     final private UUID ownerId;
     final private Date creationDate = Calendar.getInstance().getTime();
@@ -24,7 +24,7 @@ public class BankAccount implements Product {
     private double maxOverdraft = 0;
     private AccountInterestState state = null;
 
-    /* Constructor */
+
     public BankAccount(Bank bank, UUID ownerId, double balance, AccountInterestState state) {
         this.balance = balance;
         this.id = UUID.randomUUID();
@@ -33,11 +33,8 @@ public class BankAccount implements Product {
         this.state = state;
     }
 
-    public void setOverdraft(boolean overdraft) { this.overdraft = overdraft; }
 
-    public double getMaxOverdraft() { return maxOverdraft; }
 
-    public void setMaxOverdraft(double maxOverdraft) { this.maxOverdraft = maxOverdraft; }
     public AccountInterestState getState() {
         return state;
     }
@@ -67,10 +64,6 @@ public class BankAccount implements Product {
         return accountHistory;
     }
 
-    public void setOverdraft(boolean isOverdraft, double maxOverdraft) {
-        this.overdraft = isOverdraft;
-        this.maxOverdraft = maxOverdraft;
-    }
 
     /* Methods */
     public void manageInterest() {

@@ -3,6 +3,7 @@ package com.example.java;
 import com.example.java.interests.LinearInterest;
 import com.example.java.operations.Operation;
 import com.example.java.products.BankAccount;
+import com.example.java.products.Credit;
 import com.example.java.products.Product;
 import com.example.java.reporting.Over1000Report;
 import com.example.java.reporting.PassAllReport;
@@ -16,18 +17,24 @@ public class Bank {
     /* Declarations */
     private final ArrayList<Product> bankProducts = new ArrayList<>();
     private final ArrayList<Operation> bankHistory = new ArrayList<>();
+    private final UUID bankId = UUID.randomUUID();
 
     /* Getters and setters */
+
     public ArrayList<Operation> getBankHistory() {
         return bankHistory;
     }
-
     public ArrayList<Product> getBankProducts() {return bankProducts; }
+    public UUID getBankId() { return bankId; }
 
     /* Methods */
     public void createBankAccount() {
         UUID owner = UUID.randomUUID();
         bankProducts.add(new BankAccount(this, owner, 0, new LinearInterest()));
+    }
+
+    public void assignCredit(double moneyAmount, UUID ownerId) {
+        bankProducts.add(new Credit(moneyAmount, this, ownerId, new LinearInterest()));
     }
 
     public void removeBankProduct(UUID toBeRemovedId) {

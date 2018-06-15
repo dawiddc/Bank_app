@@ -8,10 +8,12 @@ import java.util.UUID;
 /* National Clearing House (KIR) mock */
 public class MoneyTransferMediator {
 
-    public void externalTransfer(double amount, Bank receiverBank, UUID receiverID) {
+    public static void externalTransfer(double amount, Bank receiverBank, UUID receiverID) {
         if (receiverBank.findBankProductByID(receiverID) != null) {
             Product receiver = receiverBank.findBankProductByID(receiverID);
             receiver.addMoney(amount);
+        } else {
+            
         }
     }
 

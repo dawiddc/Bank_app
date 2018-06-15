@@ -13,7 +13,7 @@ public class Over1000Report implements Visitor {
 
     @Override
     public Product visit(Credit credit) {
-        if (credit.getBalance() < -1000) {
+        if (credit.getBalance() < 1000) {
             return credit;
         }
         return null;

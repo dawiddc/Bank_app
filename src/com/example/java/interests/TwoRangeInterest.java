@@ -11,6 +11,6 @@ public class TwoRangeInterest implements AccountInterestState {
         if (balance < 10000)
             product.addMoney(balance * 0.045);
         if (balance >= 10000)
-            product.addMoney(balance * 0.035);
+            product.addMoney(balance * 0.045 + (balance - 10000) * 0.035);
     }
 }

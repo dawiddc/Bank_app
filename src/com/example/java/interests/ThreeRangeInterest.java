@@ -11,9 +11,9 @@ public class ThreeRangeInterest implements AccountInterestState {
         if (balance < 5000)
             product.addMoney(balance * 0.05);
         if (balance >= 5000 && balance < 20000)
-            product.addMoney(balance * 0.03);
+            product.addMoney(5000 * 0.05 + (balance - 5000) * 0.03);
         if (balance >= 20000)
-            product.addMoney(balance * 0.02);
+            product.addMoney(5000 + 0.05 + (balance - 5000) * 0.03 + (balance - 20000) * 0.02);
     }
 }
 
